@@ -1,0 +1,16 @@
+{% extends 'mybase.html' %}
+
+{% block pagetitle %}
+Developer: {{ developer }}
+{% endblock %}
+
+{% block body %}
+
+<ul>
+{% for game in gamelist %}
+<li>{{ game.name }}
+{% endfor %}
+</ul>
+<div><a href = {% url 'display:devlist'%}>Back to list</a></div>
+
+{% endblock %}

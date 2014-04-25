@@ -1,0 +1,20 @@
+{% extends 'mybase.html' %}
+
+{% block pagetitle %}
+Games
+{% endblock %}
+
+{% block body %}
+
+<table border = 1>
+<tr>
+    <th>Game</th>
+    <th>Developer</th>
+{% for game in gamelist %}
+<tr>
+    <td>{{ game.name }}
+    <td><a href = {% url 'display:profile' game.developer.id %}>{{ game.developer }}</a></td>
+
+{% endfor %}
+</table>
+{% endblock %}

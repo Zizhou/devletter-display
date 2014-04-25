@@ -1,0 +1,20 @@
+{% extends 'mybase.html' %}
+
+{% block body %}
+
+Developers:
+
+<table border = 1>
+<tr>
+    <th>Checkbox</th>
+    <th>Developer</th>
+    <th>Assigned</th>
+{% for dev in devlist %}
+<tr>
+    <td><input type = 'checkbox'></td>
+    <td><a href = {% url 'display:profile' dev.id %}>{{ dev.name }}</a></td>
+    <td>name name name</td>
+
+{% endfor %}
+</table>
+{% endblock %}
