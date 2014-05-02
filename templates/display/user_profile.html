@@ -1,0 +1,27 @@
+{% extends 'mybase.html' %}
+{% block pagetitle %}
+THIS IS YOUR PROFILE AND QUEUE
+{% endblock %}
+{% block body %}
+Hello, {{ name }}.<br>
+<div>
+<form action = '{% url 'myprofile' %}' method = 'post' name = 'sigform'>
+    {% csrf_token %}
+    Signature: <input type = 'text' name = 'sig_change' value = '{{sig}}'>
+    <input type = 'submit' value = 'Change it!'> 
+</form>
+</div>
+
+<table>
+    {% for dev in queue %}
+        {% if dev.written == False %}
+            <tr>
+            <td><input type = 'checkbox' name = {{dev.developer_id}}>
+            </td>
+            <td><a href = {% url 'display:profile' dev.developer_id %}>{{dev.developer}}</a>
+            </td>
+            </tr>
+         {% endif %}
+    {% endfor %}
+</table>
+{% endblock %}
