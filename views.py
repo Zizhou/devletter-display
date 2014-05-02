@@ -40,3 +40,11 @@ def profile(request, dev_id):
     }
     return render(request, 'display/profile.html', context)
 
+def user_profile(request):
+    username = 'No-Man'
+    if request.user.is_authenticated():
+	username = username = request.user.username
+    context = {
+        'name' : username
+    }
+    return render(request, 'display/user_profile.html', context)

@@ -1,7 +1,15 @@
 {% extends 'mybase.html' %}
-
+{% block pagetitle %}
+Letter Queue
+{% endblock %}
+<br>
 {% block body %}
-
-text text text
-
+<div>
+big ass table of TODO goes here
+</div>
+<br>
+<div>
+<a href = {% url 'display:devlist' %}>Full Developer List</a>
+<a href = {% url 'display:gamelist' %}>Full Game List</a>
+</div>
 {% endblock %}
