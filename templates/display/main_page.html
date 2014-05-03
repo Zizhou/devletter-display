@@ -1,11 +1,37 @@
 {% extends 'mybase.html' %}
 {% block pagetitle %}
-Letter Queue
+Developers to Contact
 {% endblock %}
 <br>
 {% block body %}
 <div>
-big ass table of TODO goes here
+<form action = '{% url 'display:main' %}' method = 'post' name = 'mainform'>
+{% csrf_token %}
+<table border = '1'>
+<th>☑ </th>
+<th>Developer</th>
+<th>People Assigned</th>
+{% for dev in queue %}
+    <tr>
+        <td>
+        <input type = 'checkbox' name = 'add_{{ dev.id }}'>
+        </td>
+        
+        <td>
+        <a href = {% url 'display:profile' dev.developer_id %}>{{dev.developer}}</a>
+        </td>
+        <td>
+        {% for username in dev.userprofile_set.all %}
+            {{username}}
+        {% endfor %}
+        </td>
+</tr>
+{% endfor %}
+
+</table>
+<input type = 'submit' value = 'Add to Queue'>
+</form>
+
 </div>
 <br>
 <div>

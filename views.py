@@ -11,7 +11,24 @@ import re #fucking regex
 
 @login_required
 def main_page(request):
-    return render(request, 'display/main_page.html')
+    #this is so gonna fail at some point...
+    user_profile = UserProfile.objects.filter(user_id = request.user.id)[0]
+    #...and if that doesn't, this surely will
+    if request.method == 'POST':
+        for i in request.POST:
+            print i
+            addme = re.match(r'(add_)(?P<dev_id>[0-9]+)', i)
+            if addme:
+                dev_id = int(addme.group('dev_id'))
+                user_profile.devlist.add(Letter.objects.filter(id = dev_id)[0])
+            user_profile.save()
+ 
+
+    queue = Letter.objects.exclude(written = True).order_by('developer__name')
+    context = {
+        'queue' : queue
+    }
+    return render(request, 'display/main_page.html', context)
 
 @login_required
 def devlist(request):
@@ -27,10 +44,6 @@ def gamelist(request):
         'gamelist' : Game.objects.all().order_by('name')
     }
     return render(request, 'display/gamelist.html', context)
-
-@login_required
-def queue(request):
-    return render(request, 'display/myqueue.html')
 
 #indivual dev page listing all associated games
 #also links to letter writing page
@@ -58,7 +71,6 @@ def user_profile(request):
             user_profile.signature = request.POST.get('sig_change')
             user_profile.save()
         for i in request.POST:
-            print 'developer_id is: ' + i
             removeme = re.match(r'(remove_)(?P<dev_id>[0-9]+)', i)
             if removeme:
                 dev_id = int(removeme.group('dev_id'))
@@ -71,7 +83,7 @@ def user_profile(request):
     #what's it being ordered by? who knows!
     #like, seriously, I'm not 100% on this syntax...
     #raw table name? probably?
-    queue = user_profile.devlist.all().exclude(written = True).order_by('developer__name')
+    queue = user_profile.devlist.exclude(written = True).order_by('developer__name')
     context = {
         'name' : username,
         'sig' : sig,
