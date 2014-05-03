@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from submit.models import Game, Developer
 from display.models import Letter, UserProfile
+
+import re #fucking regex
+
+
 # Create your views here.
 
 @login_required
@@ -50,14 +54,24 @@ def user_profile(request):
     user_profile = UserProfile.objects.filter(user_id = request.user.id)[0]
     #...and if that doesn't, this surely will
     if request.method == 'POST':
-        user_profile.signature = request.POST.get('sig_change')
-        user_profile.save()
+        if request.POST.get('sig-change'):
+            user_profile.signature = request.POST.get('sig_change')
+            user_profile.save()
+        for i in request.POST:
+            print 'developer_id is: ' + i
+            removeme = re.match(r'(remove_)(?P<dev_id>[0-9]+)', i)
+            if removeme:
+                dev_id = int(removeme.group('dev_id'))
+                user_profile.devlist.remove(Letter.objects.filter(id = dev_id)[0])
+            user_profile.save()
+ 
 
     sig = user_profile.signature
 
     #what's it being ordered by? who knows!
-    queue = user_profile.devlist.all().order_by()
-
+    #like, seriously, I'm not 100% on this syntax...
+    #raw table name? probably?
+    queue = user_profile.devlist.all().exclude(written = True).order_by('developer__name')
     context = {
         'name' : username,
         'sig' : sig,

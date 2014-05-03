@@ -12,16 +12,27 @@ Hello, {{ name }}.<br>
 </form>
 </div>
 
-<table>
+<form action = '{% url 'myprofile' %}' method = 'post' name = 'queueform'>
+{% csrf_token %}
+{% if queue.count == 0 %}
+<div>
+You have nothing in your queue!
+<a href = {% url 'display:main' %}>Go add more!</a>
+</div>
+{% else %}
+<table border = '1'>
     {% for dev in queue %}
         {% if dev.written == False %}
-            <tr>
-            <td><input type = 'checkbox' name = {{dev.developer_id}}>
+           <tr>
+            <td><input type = 'checkbox' name = 'remove_{{dev.id}}'>
             </td>
             <td><a href = {% url 'display:profile' dev.developer_id %}>{{dev.developer}}</a>
             </td>
             </tr>
-         {% endif %}
+        {% endif %}
     {% endfor %}
 </table>
+<input type = 'submit' value = 'Remove checked'>
+</form>
+{% endif %}
 {% endblock %}
