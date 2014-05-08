@@ -1,9 +1,11 @@
 {% extends 'mybase.html' %}
 {% block pagetitle %}
-THIS IS YOUR PROFILE AND QUEUE
+Hello, {{ name }}.<br>
 {% endblock %}
 {% block body %}
-Hello, {{ name }}.<br>
+<div>
+<a href = '/accounts/email/'>Change E-mail</a>
+</div>
 <div>
 <form action = '{% url 'myprofile' %}' method = 'post' name = 'sigform'>
     {% csrf_token %}
@@ -12,6 +14,7 @@ Hello, {{ name }}.<br>
 </form>
 </div>
 
+MY QUEUE
 <form action = '{% url 'myprofile' %}' method = 'post' name = 'queueform'>
 {% csrf_token %}
 {% if queue.count == 0 %}

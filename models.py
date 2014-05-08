@@ -33,6 +33,10 @@ class UserProfile(models.Model):
     
     signature = models.CharField(max_length = 100, blank = True)
     
+    class Meta:
+        permissions = (
+            ('write_letter', 'Can write letters'),
+        )    
 
     def __unicode__(self):
         return self.user.username
