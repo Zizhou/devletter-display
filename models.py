@@ -16,7 +16,7 @@ class Template(models.Model):
 class Letter(models.Model):
     developer = models.ForeignKey(Developer)
     #one game per dev?
-    game = models.ForeignKey(Game, null = True)#, limit_choices_to={'developer_id':developer.id)
+    game = models.ForeignKey(Game, null = True)
     written = models.BooleanField(default = False)
     #probably the only thing anyone will fill out
     text1 = models.TextField(blank = True)
@@ -53,6 +53,8 @@ def letter_create(sender, instance, created, **kwargs):
     if created == True:
         l = Letter()
         l.developer = instance
+        #slightly lazy
+        l.template = Template.objects.get(id = 1)
         l.save()
 
 post_save.connect(letter_create, sender = Developer)
