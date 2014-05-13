@@ -52,9 +52,13 @@ post_save.connect(user_profile_create, sender = User)
 def letter_create(sender, instance, created, **kwargs):
     if created == True:
         l = Letter()
-        l.developer = instance
+        l.developer = instance.developer
+        l.game = instance
         #slightly lazy
-        l.template = Template.objects.get(id = 1)
+        if instance.lastyear:
+            l.template = Template.objects.get(name = 'Replay')
+        else:
+            l.template = Template.objects.get(name = 'New Contact')
         l.save()
 
-post_save.connect(letter_create, sender = Developer)
+post_save.connect(letter_create, sender = Game)
