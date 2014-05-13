@@ -52,13 +52,18 @@ post_save.connect(user_profile_create, sender = User)
 def letter_create(sender, instance, created, **kwargs):
     if created == True:
         l = Letter()
-        l.developer = instance.developer
-        l.game = instance
-        #slightly lazy
-        if instance.lastyear:
-            l.template = Template.objects.get(name = 'Replay')
-        else:
-            l.template = Template.objects.get(name = 'New Contact')
+        l.developer = instance
         l.save()
+#updates default game in letter (and template) whenever a new game is added to a dev
+def letter_game_update(sender, instance, created, **kwargs):
+    l = Letter.objects.get(developer = instance.developer)
+    l.game = instance
+    #slightly lazy
+    if instance.lastyear:
+        l.template = Template.objects.get(name = 'Replay')
+    else:
+        l.template = Template.objects.get(name = 'New Contact')
+    l.save()
 
-post_save.connect(letter_create, sender = Game)
+post_save.connect(letter_create, sender = Developer)
+post_save.connect(letter_game_update, sender = Game)
