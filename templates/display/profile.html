@@ -11,6 +11,9 @@ Developer: {{ developer }}
 <li>{{ game.name }}
 {% endfor %}
 </ul>
+<form action = '{% url 'write:letter' letter_id %}' method = 'get'>
+<input type =  submit value = 'Write Letter'>
+</form>
 <div><a href = {% url 'display:main'%}>Back to list</a></div>
 
 {% endblock %}

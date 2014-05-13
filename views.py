@@ -52,9 +52,11 @@ def gamelist(request):
 def profile(request, dev_id):
     devname = get_object_or_404(Developer.objects.filter(id = dev_id))
     gamelist = Game.objects.filter(developer_id = dev_id).order_by('name')
+    letter_id = Letter.objects.get(developer_id = dev_id).id 
     context = {
     'developer' : devname.name,
     'gamelist' : gamelist,
+    'letter_id': letter_id,
     }
     return render(request, 'display/profile.html', context)
 
@@ -67,7 +69,7 @@ def user_profile(request):
     user_profile = UserProfile.objects.filter(user_id = request.user.id)[0]
     #...and if that doesn't, this surely will
     if request.method == 'POST':
-        if request.POST.get('sig-change'):
+        if request.POST.get('sig_change'):
             user_profile.signature = request.POST.get('sig_change')
             user_profile.save()
         for i in request.POST:
