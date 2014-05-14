@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 class Template(models.Model):
     name = models.CharField(max_length = 100)
     template = models.TextField(blank = True)
-
+    subject = models.CharField(max_length = 200)
     def __unicode__(self):
         return self.name
 

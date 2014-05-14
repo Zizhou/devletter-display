@@ -4,7 +4,7 @@ from display.models import UserProfile, Letter, Template
 # Register your models here.
 
 class TemplateAdmin(admin.ModelAdmin):
-    fields = ['name', 'template']
+    fields = ['name', 'subject', 'template']
 
 class LetterAdmin(admin.ModelAdmin):
     fields = ['developer', 'game', 'written', 'text1', 'text2', 'template']
