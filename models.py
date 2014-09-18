@@ -22,7 +22,8 @@ class Letter(models.Model):
     text1 = models.TextField(blank = True)
     #future proofing because I'm too lazy to figure out a better way
     text2 = models.TextField(blank = True)
-    template = models.ForeignKey(Template, null = True)    
+    template = models.ForeignKey(Template, null = True) 
+    subject = models.CharField(max_length = 200, blank = True)
 
     def __unicode__(self):
         return self.developer.name

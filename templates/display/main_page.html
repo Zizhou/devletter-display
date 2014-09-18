@@ -10,6 +10,7 @@ Developers to Contact
 <table border = '1'>
 <th>☑ </th>
 <th>Developer</th>
+<th>Games</th>
 <th>People Assigned</th>
 {% for dev in queue %}
     <tr>
@@ -19,6 +20,11 @@ Developers to Contact
         
         <td>
         <a href = {% url 'display:profile' dev.developer_id %}>{{dev.developer}}</a>
+        </td>
+        <td>
+        {% for game in dev.developer.game_set.all %}
+            {{game}}
+        {% endfor %}
         </td>
         <td>
         {% for username in dev.userprofile_set.all %}

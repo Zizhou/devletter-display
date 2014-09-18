@@ -7,7 +7,7 @@ class TemplateAdmin(admin.ModelAdmin):
     fields = ['name', 'subject', 'template']
 
 class LetterAdmin(admin.ModelAdmin):
-    fields = ['developer', 'game', 'written', 'text1', 'text2', 'template']
+    fields = ['developer', 'game', 'written','subject', 'text1', 'text2', 'template']
 
 class ProfileAdmin(admin.ModelAdmin):
     fields = ['user', 'signature', 'devlist']
