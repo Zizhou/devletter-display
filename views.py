@@ -79,6 +79,7 @@ def user_profile(request):
                 user_profile.devlist.remove(Letter.objects.filter(id = dev_id)[0])
             user_profile.save()
  
+    tickets = user_profile.ticket_count
 
     sig = user_profile.signature
 
@@ -89,6 +90,7 @@ def user_profile(request):
     context = {
         'name' : username,
         'sig' : sig,
-        'queue' : queue
+        'queue' : queue,
+        'ticket_count' : tickets,
     }
     return render(request, 'display/user_profile.html', context)

@@ -33,6 +33,8 @@ class UserProfile(models.Model):
     devlist = models.ManyToManyField(Letter, blank = True)
     
     signature = models.CharField(max_length = 100, blank = True)
+
+    ticket_count = models.IntegerField(default = 0)
     
     class Meta:
         permissions = (
@@ -41,6 +43,18 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+    
+    def ticket_decrement(self, val):
+        if self.ticket_count <= 0 or self.ticket_count - val < 0:
+            return False
+        self.ticket_count -= val
+        self.save()
+        return self.ticket_count
+
+    def ticket_increment(self, val):
+        self.ticket_count += val
+        self.save()
+        return self.ticket_count
 
 def user_profile_create(sender, instance, created, **kwargs):
     if created == True:

@@ -1,6 +1,7 @@
 {% extends 'mybase.html' %}
 {% block pagetitle %}
 Hello, {{ name }}.<br>
+You have {{ticket_count}} ticket{% if ticket_count >= 2 or ticket_count == 0 %}s{%endif%}.<br>
 {% endblock %}
 {% block body %}
 <div>

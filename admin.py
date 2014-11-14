@@ -10,7 +10,7 @@ class LetterAdmin(admin.ModelAdmin):
     fields = ['developer', 'game', 'written','subject', 'text1', 'text2', 'template']
 
 class ProfileAdmin(admin.ModelAdmin):
-    fields = ['user', 'signature', 'devlist']
+    fields = ['user', 'signature', 'devlist', 'ticket_count']
     
 admin.site.register(Template, TemplateAdmin)
 admin.site.register(Letter, LetterAdmin)
