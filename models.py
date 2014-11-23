@@ -49,12 +49,12 @@ class UserProfile(models.Model):
             return False
         self.ticket_count -= val
         self.save()
-        return self.ticket_count
-
+        return True
+ 
     def ticket_increment(self, val):
         self.ticket_count += val
         self.save()
-        return self.ticket_count
+        return True
 
 def user_profile_create(sender, instance, created, **kwargs):
     if created == True:
