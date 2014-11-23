@@ -45,7 +45,7 @@ class UserProfile(models.Model):
         return self.user.username
     
     def ticket_decrement(self, val):
-        if self.ticket_count <= 0 or self.ticket_count - val < 0:
+        if self.ticket_count - val < 0:
             return False
         self.ticket_count -= val
         self.save()
