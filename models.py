@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from submit.models import Game, Developer
 from django.contrib.auth.models import User
 
+import datetime
 # Create your models here.
 class Template(models.Model):
     name = models.CharField(max_length = 100)
@@ -31,15 +32,16 @@ class Letter(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, unique = True)
     devlist = models.ManyToManyField(Letter, blank = True)
-    
     signature = models.CharField(max_length = 100, blank = True)
-
+##the following are for automatic code distribution
     ticket_count = models.IntegerField(default = 0)
+    last_donation = models.DateTimeField(default = datetime.datetime(1970, 1,1,0,0,0),blank = True)
+    donation_count = models.IntegerField(default = 0)
     
     class Meta:
         permissions = (
             ('write_letter', 'Can write letters'),
-        )    
+        )
 
     def __unicode__(self):
         return self.user.username
@@ -55,6 +57,20 @@ class UserProfile(models.Model):
         self.ticket_count += val
         self.save()
         return True
+    #on donation, update count, returns true if last donation was >1 hour ago
+    def donation_update(self):
+        self.donation_count += 1
+        donation_delta = self.last_donation + datetime.timedelta(0,3600)
+        donation_delta = donation_delta.replace(tzinfo = None)
+        self.last_donation = datetime.datetime.now()
+#        self.last_donation = self.last_donation.replace(tzinfo = None)
+        self.save()
+        print donation_delta
+        print self.last_donation
+        if donation_delta < self.last_donation:
+            return True
+        else: 
+            return False
 
 def user_profile_create(sender, instance, created, **kwargs):
     if created == True:
