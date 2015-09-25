@@ -17,7 +17,13 @@ There were potential problems saving changes to:
 <table>
 {% for x in forms %}
 <tr>
-    <td>{{x.name}}</td>
+    <td>{{x.name}} - 
+        {% if x.game.owned_pc %}
+        {{x.game.name}}<b>(owned)</b>
+        {% else %}
+        {{x.game.name}}
+        {% endif %}
+    </td>
     <td>
     {% for radio in x.form.template %}
         {{radio}}

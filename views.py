@@ -111,7 +111,7 @@ def bulk_template(request):
 
     form = []
     for x in Letter.objects.all().order_by('developer__name'):
-        form.append({'name':x.developer.name, 'form':TemplateSelectForm(instance = x, prefix = x.developer)})
+        form.append({'name':x.developer.name,'game':x.game, 'form':TemplateSelectForm(instance = x, prefix = x.developer)})
 
     context = {
         'forms':form,
