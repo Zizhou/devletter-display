@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 
 from django.db.models.signals import post_save
 
@@ -63,7 +64,6 @@ class UserProfile(models.Model):
         donation_delta = self.last_donation + datetime.timedelta(0,3600)
         donation_delta = donation_delta.replace(tzinfo = None)
         self.last_donation = datetime.datetime.now()
-#        self.last_donation = self.last_donation.replace(tzinfo = None)
         self.save()
         print donation_delta
         print self.last_donation
@@ -71,6 +71,12 @@ class UserProfile(models.Model):
             return True
         else: 
             return False
+
+class TemplateSelectForm(forms.ModelForm):
+    class Meta:
+        model = Letter
+        fields = ['template']
+
 
 def user_profile_create(sender, instance, created, **kwargs):
     if created == True:
@@ -89,11 +95,11 @@ def letter_create(sender, instance, created, **kwargs):
 def letter_game_update(sender, instance, created, **kwargs):
     l = Letter.objects.get(developer = instance.developer)
     l.game = instance
-    #slightly lazy
-    if instance.lastyear:
-        l.template = Template.objects.get(name = 'Replay')
-    else:
-        l.template = Template.objects.get(name = 'New Contact')
+    ##slightly lazy
+    #if instance.lastyear:
+    #    l.template = Template.objects.get(name = 'Replay')
+    #else:
+    #    l.template = Template.objects.get(name = 'New Contact')
     l.save()
 
 post_save.connect(letter_create, sender = Developer)

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 
 from submit.models import Game, Developer
-from display.models import Letter, UserProfile
+from display.models import Letter, UserProfile, TemplateSelectForm
 
 import re #fucking regex
 
@@ -94,3 +94,28 @@ def user_profile(request):
         'ticket_count' : tickets,
     }
     return render(request, 'display/user_profile.html', context)
+
+def bulk_template(request):
+    error = []
+    if request.method =='POST':
+        for x in Letter.objects.all():
+            form = TemplateSelectForm(request.POST, instance = x, prefix = x.developer)
+            if form.is_valid():
+                try:
+                    form.save()
+                except:
+                    try:
+                        error.append(x.developer.name.decode('utf-8'))
+                    except:
+                        error.append(unicode(x.id)+'this one\'s funny...')
+
+    form = []
+    for x in Letter.objects.all():
+        form.append({'name':x.developer.name, 'form':TemplateSelectForm(instance = x, prefix = x.developer)})
+
+    context = {
+        'forms':form,
+        'error' : error,
+        'message' : len(error)>0
+    }
+    return render(request, 'display/bulk_template.html', context)

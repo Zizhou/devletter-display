@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^devlist/', views.devlist, name = 'devlist'),
     url(r'^gamelist/', views.gamelist, name = 'gamelist'),
     url(r'^profile/(?P<dev_id>\d+)/$', views.profile, name = 'profile'),
+    url(r'^bulk/', views.bulk_template, name = 'bulk'),
 )

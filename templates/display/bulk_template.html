@@ -1,0 +1,34 @@
+{% extends 'mybase.html' %}
+{% block pagetitle %}
+Bulk Template Select
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+{% if message %}
+There were potential problems saving changes to:
+{% for x in error %}
+{{x}}<br>
+{% endfor %}
+{% endif %}
+<form action = {% url 'display:bulk' %} method = 'POST' >
+{% csrf_token %}
+<table>
+{% for x in forms %}
+<tr>
+    <td>{{x.name}}</td>
+    <td>{{x.form.template}}</td>
+<tr>
+{% endfor %}
+</table>
+
+<input type = 'submit' value = 'Update!'>
+</form>
+<div class = 'button'>
+<a class = 'fill' href ={% url 'display:main'%}>
+Back
+</a>
+</div>
+<div style = 'clear:both'></div>
+{% endblock %}
