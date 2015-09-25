@@ -73,6 +73,7 @@ class UserProfile(models.Model):
             return False
 
 class TemplateSelectForm(forms.ModelForm):
+    template = forms.ModelChoiceField(queryset = Template.objects.all().order_by('id'), initial = 1, empty_label = None, widget = forms.RadioSelect)
     class Meta:
         model = Letter
         fields = ['template']
