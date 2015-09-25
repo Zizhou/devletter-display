@@ -98,7 +98,7 @@ def user_profile(request):
 def bulk_template(request):
     error = []
     if request.method =='POST':
-        for x in Letter.objects.all():
+        for x in Letter.objects.all().order_by('developer__name'):
             form = TemplateSelectForm(request.POST, instance = x, prefix = x.developer)
             if form.is_valid():
                 try:
@@ -110,7 +110,7 @@ def bulk_template(request):
                         error.append(unicode(x.id)+'this one\'s funny...')
 
     form = []
-    for x in Letter.objects.all():
+    for x in Letter.objects.all().order_by('developer__name'):
         form.append({'name':x.developer.name, 'form':TemplateSelectForm(instance = x, prefix = x.developer)})
 
     context = {
