@@ -14,10 +14,10 @@ There were potential problems saving changes to:
 {% endif %}
 <form action = {% url 'display:bulk' %} method = 'POST' >
 {% csrf_token %}
-<table>
+<table border = 1>
 {% for x in forms %}
-<tr>
-    <td>{{x.name}} - 
+<tr style = 'border:1px solid black' >
+    <td style = 'width:33%'>{{x.name}}
         {% if x.game.owned_pc %}
         {{x.game.name}}<b>(owned)</b>
         {% else %}
